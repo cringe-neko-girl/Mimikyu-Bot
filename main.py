@@ -27,7 +27,7 @@ class BotSetup(commands.AutoShardedBot):
     def __init__(self):
         intents = discord.Intents.all()
         intents.members = True
-        self.prefix = "..."
+        self.prefix = "m!"
         super().__init__(
             command_prefix=commands.when_mentioned_or(self.prefix),
             intents=intents,
@@ -82,11 +82,8 @@ class BotSetup(commands.AutoShardedBot):
 
     async def setup(self):
         print("\n\033[94m• —— Cogs/\033[0m")
-        await self.import_cogs("Cogs")
-        print("\n\033[94m• —— Events/\033[0m")
-        await self.import_cogs("Events")
-        print("\n\033[94m===== Setup Completed =====\033[0m")
-
+        await self.import_cogs("cogs")
+      
     async def import_cogs(self, dir_name):
         for filename in os.listdir(dir_name):
             if filename.endswith(".py"):
