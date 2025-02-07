@@ -1,9 +1,11 @@
 # Standard Libraries
 import os
-import asyncio
 import sqlite3
+import asyncio
+import requests
 import numpy as np
 import pandas as pd
+from io import BytesIO
 
 from urllib.parse import unquote
 from concurrent.futures import ProcessPoolExecutor
@@ -210,6 +212,46 @@ class Detection_Listener(commands.Cog):
             874910942490677270,
         ]  
 
+    @commands.command()
+    async def predict(self, ctx, *, arg=None):
+        image_url = None
+
+        if arg:
+            image_url = arg
+        elif ctx.message.attachments:
+            image_url = ctx.message.attachments[0].url
+        elif ctx.message.reference:
+            reference_message = await ctx.channel.fetch_message(
+                ctx.message.reference.message_id
+            )
+            if reference_message.attachments:
+                image_url = reference_message.attachments[0].url
+            elif reference_message.embeds:
+                embed = reference_message.embeds[0]
+                if embed.image:
+                    image_url = embed.image.url
+
+        if image_url is None:
+            await ctx.send("No image URL found.")
+            return
+
+        # Fetch the image
+        try:
+            response = requests.get(image_url)
+            image_data = BytesIO(response.content)
+            image = cv2.imdecode(np.frombuffer(image_data.read(), np.uint8), cv2.IMREAD_COLOR)
+        except Exception as e:
+            await ctx.send(f"Error fetching image: {str(e)}")
+            return
+
+        # Perform prediction using the Pokemon_Detection class
+        pokemon_name, score = await self.predictor.detect_and_match(image)
+
+        if pokemon_name is None:
+            await ctx.send("No matching Pokémon found.")
+        else:
+            await ctx.send(f"Predicted Pokémon: {pokemon_name} with a score of {score}")
+            
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author.id == self.author_id and message.embeds:

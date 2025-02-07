@@ -28,7 +28,7 @@ class AnyaImages:
     shocked_anya = "https://img-03.stickers.cloud/packs/20d46227-dcb0-4583-8d66-ee78d4743129/webp/a65e28be-a5fd-4654-8e7d-736dbd809df2.webp"
     awake_anya = "https://media.tenor.com/9kLYJilshNMAAAAe/spy-x-family-anya.png"
     question_anya = (
-        "https://i.pinimg.com/236x/b7/23/1f/b7231fbf87eee22b6d1f35f83e9a80bd.jpg"
+        "https://i.pinimg.com/236x/62/da/0c/62da0cbce44085d0960ba487b6c57aca.jpg"
     )
     start_shop_thumbnail = (
         "https://i.pinimg.com/564x/fd/1d/49/fd1d49d255ca18236a27a38b8710681b.jpg"
@@ -134,54 +134,18 @@ class Help_Embed_Mapping:
         "image_url": None,
     }
 
-
 class Help_Select_Embed_Mapping:
     embeds = {
-        "system": {
-            "title": "System",
-            "description": "View the status of the bot, including information about its current performance, system resources usage, and configuration settings.",
-            "color": discord.Color.red(),  # Customize color as needed
-            "thumbnail_url": AnyaImages.help_system_thumbnail,
-            "image_url": "https://i.pinimg.com/564x/f4/38/ef/f438ef92875df915c8d019780a76a346.jpg",
-        },
-        "quest": {
-            "title": "Quest",
-            "description": "Manages quest tracking, balance points, and a shop in a Discord bot. It allows users to view and track quests, configure mission channels, and manage balance.",
+        "detection_listener": {
+            "title": "Detection Listener",
+            "description": "This cog is in charge of listening to all Pokémon spawns, monitoring Pokémon in this server, handling data, etc.",
             "color": None,  # Customize color as needed
-            "thumbnail_url": AnyaImages.help_quest_thumbnail,
-        },
-        "ai": {
-            "title": "AI",
-            "description": "Interact with advanced artificial intelligence functionalities, capable of handling various tasks including natural language processing, image recognition, and more.",
-            "color": discord.Color.green(),  # Customize color as needed
-            "thumbnail_url": AnyaImages.help_ai_thumbnail,
-        },
-        "pokemon": {
-            "title": "Pokemon",
-            "description": "Uncover and investigate Pokémon by exploring comprehensive details and sharing your insights with others.",
-            "color": discord.Color.red(),  # Customize color as needed
-            "thumbnail_url": AnyaImages.help_pokemon_thumbnail,
-        },
-        "anime": {
-            "title": "Anime",
-            "description": "Waku waku! Anya offers a taste of anime of weeb content for all who seek it. Get information about your favorite anime or play around and be show off some manga.",
-            "color": None,
-            "thumbnail_url": AnyaImages.help_anime_thumbnail,
-        },
-        "information": {
-            "title": "Information",
-            "description": "Gather the status of a member in the Discord server and stay informed to avoid looking silly. Anya can assist you with information such as server links, member details, word definitions, and more.",
-            "color": None,
-            "thumbnail_url": AnyaImages.help_information_thumbnail,
-        },
-        "Cog2": {
-            "title": "Title for Cog2",
-            "description": "Description for Cog2",
-            "color": discord.Color.blue(),  # Customize color as needed
-            "thumbnail_url": "Thumbnail URL for Cog2",
-        },
-        # Add more embed mappings for other cogs as needed
+            "thumbnail_url": None,
+            "image_url": None
+        }
     }
+
+    
 
     emojis = {
         # "<:system_icon:1238536111266201610>",

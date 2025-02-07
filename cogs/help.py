@@ -287,6 +287,11 @@ class Options_ImageGenerator:
         self.character = Image.open(self.character_path).convert("RGBA")
         self.background = Image.open(self.background_path).convert("RGBA")
 
+        self.color_replacements_map = {
+            "f8a9a2" : "efebd0"
+            
+        }
+
         
         self._resize_character()
 
@@ -440,8 +445,7 @@ class ImageGenerator:
 
         
         self.color_replacements_map = {
-            
-            
+            "f8a9a2" : "efebd0"
             
         }
 
