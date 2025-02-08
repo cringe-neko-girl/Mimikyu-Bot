@@ -21,6 +21,7 @@ class HelpEmbedImagesManager:
     def __init__(self, json_file_path):
         self.json_file_path = json_file_path
         self.help_embed = self.load_images()
+        
 
     def load_images(self):
         """Loads the images from the JSON file."""
@@ -87,6 +88,7 @@ class Select(discord.ui.Select):
         self.primary_color = primary_color
         self.command_mapping_file = "Data/commands/help/command_map.json"
         self.set_thumbnail_file = "Data/commands/help/help_embed_images.json"
+        self.image_output_path = "Data/commands/help/set_image/cog_image.png"
 
     def _ensure_file_exists(self):
         """Ensures the command mapping file exists."""
@@ -154,6 +156,15 @@ class Select(discord.ui.Select):
             else:
                 logger.warning(f"No thumbnail URL found for cog '{cog_name}'.")
 
+
+            # Generate a new image for the selected cog
+            image_generator = Options_ImageGenerator(cog_name)
+            image_generator.create_image(self.image_output_path)
+
+            # Attach the generated image
+            file = discord.File(self.image_output_path, filename="cog_image.png")
+
+
             
             image_path = "Data/commands/help/set_image/cog_image.png"
             file = None
@@ -211,7 +222,6 @@ class Select(discord.ui.Select):
             print(traceback_str)
             logger.debug(f"An error occurred: {traceback_str}")
             pass
-        
         
 class HelpMenu(discord.ui.View):
     def __init__(self, bot, primary_color, select_view, *, timeout=None):
@@ -394,22 +404,24 @@ class Options_ImageGenerator:
         response.raise_for_status()  
         return Image.open(BytesIO(response.content)).convert("RGBA")
 
-    def create_image(self):
-        """Generate the complete image with the background, character, and text."""
-        bg = self.background.copy()
-        draw = ImageDraw.Draw(bg)
+    def create_image(self, output_path="Data/commands/help/generated_cog_image.png"):
+     """Generate the complete image and save it to the given path."""
+     bg = self.background.copy()
+     draw = ImageDraw.Draw(bg)
 
-        
-        character_x, character_y = self.character_pos
-        bg.paste(self.character, (character_x, character_y), self.character)
+     character_x, character_y = self.character_pos
+     bg.paste(self.character, (character_x, character_y), self.character) 
 
-        
-        text_x = self.character.width + self.text_x_offset
-        text_y = self.text_y_offset
-        self._draw_text(draw, text_x, text_y)
+     text_x = self.character.width + self.text_x_offset
+     text_y = self.text_y_offset
+     self._draw_text(draw, text_x, text_y)
 
-        return bg
+     # Save the image
+     os.makedirs(os.path.dirname(output_path), exist_ok=True)
+     bg.save(output_path)
 
+     return output_path 
+    
     def save_image(self, file_path):
         """Save the generated image to the given file path."""
         img = self.create_image()
